@@ -10,10 +10,10 @@
   --primary-dark: #6d28d9;
   --primary-light: #a78bfa;
 
-  /* SECONDARY COLOR - Accent/CTA (Purple variant) */
-  --secondary: #8b5cf6;
-  --secondary-dark: #7c3aed;
-  --secondary-light: #a78bfa;
+  /* SECONDARY COLOR - Accent/CTA (Amber for contrast) */
+  --secondary: #f59e0b;
+  --secondary-dark: #d97706;
+  --secondary-light: #fbbf24;
 
   /* NEUTRAL COLOR - Backgrounds & Text (Gray scale) */
   --neutral-white: #ffffff;
