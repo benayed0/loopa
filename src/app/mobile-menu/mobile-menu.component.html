@@ -195,21 +195,6 @@
 
             <button
               class="payment-method-btn"
-              [class.selected]="selectedPaymentMethod === 'card'"
-              (click)="selectPaymentMethod('card')"
-            >
-              <span class="payment-icon">💳</span>
-              <div class="payment-info">
-                <span class="payment-title">Carte bancaire</span>
-                <span class="payment-subtitle">Paiement sécurisé en ligne</span>
-              </div>
-              <span class="checkmark" *ngIf="selectedPaymentMethod === 'card'"
-                >✓</span
-              >
-            </button>
-
-            <button
-              class="payment-method-btn"
               [class.selected]="selectedPaymentMethod === 'cash'"
               (click)="selectPaymentMethod('cash')"
             >
@@ -219,6 +204,20 @@
                 <span class="payment-subtitle">Payer au comptoir</span>
               </div>
               <span class="checkmark" *ngIf="selectedPaymentMethod === 'cash'"
+                >✓</span
+              >
+            </button>
+            <button
+              class="payment-method-btn"
+              [class.selected]="selectedPaymentMethod === 'card'"
+              (click)="selectPaymentMethod('card')"
+            >
+              <span class="payment-icon">💳</span>
+              <div class="payment-info">
+                <span class="payment-title">Carte bancaire</span>
+                <span class="payment-subtitle">Paiement sécurisé en ligne</span>
+              </div>
+              <span class="checkmark" *ngIf="selectedPaymentMethod === 'card'"
                 >✓</span
               >
             </button>

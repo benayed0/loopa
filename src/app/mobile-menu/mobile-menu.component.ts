@@ -20,13 +20,13 @@ interface CartItem extends MenuItem {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './mobile-menu.component.html',
-  styleUrl: './mobile-menu.component.css'
+  styleUrl: './mobile-menu.component.css',
 })
 export class MobileMenuComponent {
   currentStep: 'menu' | 'cart' | 'payment' | 'success' = 'menu';
   cart: CartItem[] = [];
   totalPoints: number = 0;
-  selectedPaymentMethod: 'card' | 'cash' | null = null;
+  selectedPaymentMethod: 'card' | 'cash' | null = 'cash';
   showPointsAnimation: boolean = false;
 
   menuItems: MenuItem[] = [
@@ -34,60 +34,60 @@ export class MobileMenuComponent {
       id: 1,
       name: 'Café Latte',
       description: 'Expresso onctueux avec lait chaud',
-      price: 4.50,
+      price: 4.5,
       emoji: '☕',
       category: 'Boissons chaudes',
-      points: 45
+      points: 45,
     },
     {
       id: 2,
       name: 'Croissant',
       description: 'Croissant au beurre frais',
-      price: 2.00,
+      price: 2.0,
       emoji: '🥐',
       category: 'Viennoiseries',
-      points: 20
+      points: 20,
     },
     {
       id: 3,
       name: 'Burger Classique',
       description: 'Pain maison, steak, cheddar, salade',
-      price: 12.00,
+      price: 12.0,
       emoji: '🍔',
       category: 'Plats',
-      points: 120
+      points: 120,
     },
     {
       id: 4,
       name: 'Salade César',
       description: 'Poulet grillé, parmesan, croutons',
-      price: 10.50,
+      price: 10.5,
       emoji: '🥗',
       category: 'Plats',
-      points: 105
+      points: 105,
     },
     {
       id: 5,
-      name: 'Jus d\'Orange Frais',
+      name: "Jus d'Orange Frais",
       description: 'Pressé minute',
-      price: 4.00,
+      price: 4.0,
       emoji: '🍊',
       category: 'Boissons froides',
-      points: 40
+      points: 40,
     },
     {
       id: 6,
       name: 'Tiramisu',
       description: 'Recette traditionnelle italienne',
-      price: 6.00,
+      price: 6.0,
       emoji: '🍰',
       category: 'Desserts',
-      points: 60
-    }
+      points: 60,
+    },
   ];
 
   get cartTotal(): number {
-    return this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return this.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 
   get cartItemsCount(): number {
@@ -95,19 +95,22 @@ export class MobileMenuComponent {
   }
 
   get earnedPoints(): number {
-    return this.cart.reduce((sum, item) => sum + (item.points * item.quantity), 0);
+    return this.cart.reduce(
+      (sum, item) => sum + item.points * item.quantity,
+      0
+    );
   }
 
   getCategories(): string[] {
-    return [...new Set(this.menuItems.map(item => item.category))];
+    return [...new Set(this.menuItems.map((item) => item.category))];
   }
 
   getItemsByCategory(category: string): MenuItem[] {
-    return this.menuItems.filter(item => item.category === category);
+    return this.menuItems.filter((item) => item.category === category);
   }
 
   addToCart(item: MenuItem): void {
-    const existingItem = this.cart.find(cartItem => cartItem.id === item.id);
+    const existingItem = this.cart.find((cartItem) => cartItem.id === item.id);
 
     if (existingItem) {
       existingItem.quantity++;
@@ -120,7 +123,7 @@ export class MobileMenuComponent {
   }
 
   removeFromCart(itemId: number): void {
-    const itemIndex = this.cart.findIndex(item => item.id === itemId);
+    const itemIndex = this.cart.findIndex((item) => item.id === itemId);
     if (itemIndex > -1) {
       if (this.cart[itemIndex].quantity > 1) {
         this.cart[itemIndex].quantity--;
@@ -131,7 +134,7 @@ export class MobileMenuComponent {
   }
 
   deleteFromCart(itemId: number): void {
-    this.cart = this.cart.filter(item => item.id !== itemId);
+    this.cart = this.cart.filter((item) => item.id !== itemId);
   }
 
   goToCart(): void {
