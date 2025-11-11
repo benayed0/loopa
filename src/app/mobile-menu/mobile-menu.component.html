@@ -1,0 +1,240 @@
+<!-- Mobile Phone Frame -->
+<div class="phone-demo-container">
+  <div class="phone-frame">
+    <!-- Phone Header -->
+    <div class="phone-header">
+      <div class="status-bar">
+        <span class="time">12:34</span>
+        <div class="status-icons">
+          <span>📶</span>
+          <span>🔋</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Content -->
+    <div class="phone-content">
+
+      <!-- MENU VIEW -->
+      <div class="view-container" *ngIf="currentStep === 'menu'">
+        <!-- App Header -->
+        <div class="app-header">
+          <div class="restaurant-info">
+            <h2 class="restaurant-name">Le Café du Coin</h2>
+            <p class="table-number">Table #7 • QR scanné ✓</p>
+          </div>
+          <button
+            class="cart-button"
+            (click)="goToCart()"
+            [class.has-items]="cartItemsCount > 0"
+          >
+            🛒
+            <span class="cart-badge" *ngIf="cartItemsCount > 0">{{ cartItemsCount }}</span>
+          </button>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="menu-content">
+          <div *ngFor="let category of getCategories()" class="menu-category">
+            <h3 class="category-title">{{ category }}</h3>
+
+            <div class="menu-items">
+              <div
+                *ngFor="let item of getItemsByCategory(category)"
+                class="menu-item"
+              >
+                <div class="item-info">
+                  <div class="item-emoji">{{ item.emoji }}</div>
+                  <div class="item-details">
+                    <h4 class="item-name">{{ item.name }}</h4>
+                    <p class="item-description">{{ item.description }}</p>
+                    <div class="item-footer">
+                      <span class="item-price">{{ item.price.toFixed(2) }} DT</span>
+                      <span class="item-points">+{{ item.points }} pts 🎁</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="add-button" (click)="addToCart(item)">
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CART VIEW -->
+      <div class="view-container" *ngIf="currentStep === 'cart'">
+        <div class="app-header">
+          <button class="back-button" (click)="backToMenu()">← Menu</button>
+          <h2 class="view-title">Mon panier</h2>
+          <div style="width: 40px;"></div>
+        </div>
+
+        <div class="cart-content">
+          <div *ngIf="cart.length === 0" class="empty-cart">
+            <div class="empty-icon">🛒</div>
+            <p>Votre panier est vide</p>
+          </div>
+
+          <div *ngIf="cart.length > 0" class="cart-items">
+            <div *ngFor="let item of cart" class="cart-item">
+              <div class="cart-item-info">
+                <span class="cart-item-emoji">{{ item.emoji }}</span>
+                <div class="cart-item-details">
+                  <h4>{{ item.name }}</h4>
+                  <p class="cart-item-price">{{ item.price.toFixed(2) }} DT</p>
+                </div>
+              </div>
+
+              <div class="quantity-controls">
+                <button class="qty-btn" (click)="removeFromCart(item.id)">−</button>
+                <span class="quantity">{{ item.quantity }}</span>
+                <button class="qty-btn" (click)="addToCart(item)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="cart.length > 0" class="cart-summary">
+            <div class="summary-row">
+              <span>Total</span>
+              <span class="summary-total">{{ cartTotal.toFixed(2) }} DT</span>
+            </div>
+            <div class="summary-row points-row">
+              <span>Points gagnés</span>
+              <span class="points-earned">+{{ earnedPoints }} pts 🎁</span>
+            </div>
+
+            <button class="primary-button" (click)="goToPayment()">
+              Valider la commande
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT VIEW -->
+      <div class="view-container" *ngIf="currentStep === 'payment'">
+        <div class="app-header">
+          <button class="back-button" (click)="backToCart()">← Panier</button>
+          <h2 class="view-title">Paiement</h2>
+          <div style="width: 40px;"></div>
+        </div>
+
+        <div class="payment-content">
+          <div class="order-summary">
+            <h3>Résumé de commande</h3>
+            <div class="summary-items">
+              <div *ngFor="let item of cart" class="summary-item">
+                <span>{{ item.quantity }}x {{ item.name }}</span>
+                <span>{{ (item.price * item.quantity).toFixed(2) }} DT</span>
+              </div>
+            </div>
+            <div class="summary-total-row">
+              <span>Total</span>
+              <span class="total-amount">{{ cartTotal.toFixed(2) }} DT</span>
+            </div>
+          </div>
+
+          <div class="payment-methods">
+            <h3>Mode de paiement</h3>
+
+            <button
+              class="payment-method-btn"
+              [class.selected]="selectedPaymentMethod === 'card'"
+              (click)="selectPaymentMethod('card')"
+            >
+              <span class="payment-icon">💳</span>
+              <div class="payment-info">
+                <span class="payment-title">Carte bancaire</span>
+                <span class="payment-subtitle">Paiement sécurisé en ligne</span>
+              </div>
+              <span class="checkmark" *ngIf="selectedPaymentMethod === 'card'">✓</span>
+            </button>
+
+            <button
+              class="payment-method-btn"
+              [class.selected]="selectedPaymentMethod === 'cash'"
+              (click)="selectPaymentMethod('cash')"
+            >
+              <span class="payment-icon">💵</span>
+              <div class="payment-info">
+                <span class="payment-title">Espèces</span>
+                <span class="payment-subtitle">Payer au comptoir</span>
+              </div>
+              <span class="checkmark" *ngIf="selectedPaymentMethod === 'cash'">✓</span>
+            </button>
+          </div>
+
+          <div class="points-preview">
+            <div class="points-box">
+              <span class="points-label">Vous allez gagner</span>
+              <span class="points-value">+{{ earnedPoints }} points 🎁</span>
+            </div>
+          </div>
+
+          <button
+            class="primary-button"
+            [disabled]="!selectedPaymentMethod"
+            (click)="confirmPayment()"
+          >
+            Confirmer le paiement
+          </button>
+        </div>
+      </div>
+
+      <!-- SUCCESS VIEW -->
+      <div class="view-container success-view" *ngIf="currentStep === 'success'">
+        <div class="success-content">
+          <div class="success-animation" [class.animate]="showPointsAnimation">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">Commande validée !</h2>
+            <p class="success-message">Votre commande a été transmise en cuisine</p>
+          </div>
+
+          <div class="success-points">
+            <div class="points-earned-box" [class.animate]="showPointsAnimation">
+              <div class="points-icon">🎁</div>
+              <div class="points-text">
+                <span class="points-label">Points gagnés</span>
+                <span class="points-amount">+{{ earnedPoints }} pts</span>
+              </div>
+            </div>
+
+            <div class="total-points">
+              <span>Solde total : {{ totalPoints }} points Loopa</span>
+            </div>
+          </div>
+
+          <div class="order-details">
+            <h3>Détails de commande</h3>
+            <div class="detail-row">
+              <span>Table</span>
+              <span>#7</span>
+            </div>
+            <div class="detail-row">
+              <span>Montant</span>
+              <span>{{ cartTotal.toFixed(2) }} DT</span>
+            </div>
+            <div class="detail-row">
+              <span>Paiement</span>
+              <span>{{ selectedPaymentMethod === 'card' ? 'Carte bancaire' : 'Espèces' }}</span>
+            </div>
+          </div>
+
+          <button class="secondary-button" (click)="resetDemo()">
+            Nouvelle commande
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Phone Bottom Bar -->
+    <div class="phone-bottom-bar"></div>
+  </div>
+
+  <!-- Demo Label -->
+  <div class="demo-label">
+    <span>📱 Démo interactive • Essayez !</span>
+  </div>
+</div>
