@@ -6,15 +6,49 @@
       <div class="status-bar">
         <span class="time">12:34</span>
         <div class="status-icons">
-          <span>📶</span>
-          <span>🔋</span>
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-wifi-icon lucide-wifi"
+            >
+              <path d="M12 20h.01" />
+              <path d="M2 8.82a15 15 0 0 1 20 0" />
+              <path d="M5 12.859a10 10 0 0 1 14 0" />
+              <path d="M8.5 16.429a5 5 0 0 1 7 0" /></svg
+          ></span>
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-battery-full-icon lucide-battery-full"
+            >
+              <path d="M10 10v4" />
+              <path d="M14 10v4" />
+              <path d="M22 14v-4" />
+              <path d="M6 10v4" />
+              <rect x="2" y="6" width="16" height="12" rx="2" /></svg
+          ></span>
         </div>
       </div>
     </div>
 
     <!-- App Content -->
     <div class="phone-content">
-
       <!-- MENU VIEW -->
       <div class="view-container" *ngIf="currentStep === 'menu'">
         <!-- App Header -->
@@ -28,8 +62,27 @@
             (click)="goToCart()"
             [class.has-items]="cartItemsCount > 0"
           >
-            🛒
-            <span class="cart-badge" *ngIf="cartItemsCount > 0">{{ cartItemsCount }}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+            >
+              <circle cx="8" cy="21" r="1" />
+              <circle cx="19" cy="21" r="1" />
+              <path
+                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+              />
+            </svg>
+            <span class="cart-badge" *ngIf="cartItemsCount > 0">{{
+              cartItemsCount
+            }}</span>
           </button>
         </div>
 
@@ -49,14 +102,14 @@
                     <h4 class="item-name">{{ item.name }}</h4>
                     <p class="item-description">{{ item.description }}</p>
                     <div class="item-footer">
-                      <span class="item-price">{{ item.price.toFixed(2) }} DT</span>
+                      <span class="item-price"
+                        >{{ item.price.toFixed(2) }} DT</span
+                      >
                       <span class="item-points">+{{ item.points }} pts 🎁</span>
                     </div>
                   </div>
                 </div>
-                <button class="add-button" (click)="addToCart(item)">
-                  +
-                </button>
+                <button class="add-button" (click)="addToCart(item)">+</button>
               </div>
             </div>
           </div>
@@ -68,7 +121,7 @@
         <div class="app-header">
           <button class="back-button" (click)="backToMenu()">← Menu</button>
           <h2 class="view-title">Mon panier</h2>
-          <div style="width: 40px;"></div>
+          <div style="width: 40px"></div>
         </div>
 
         <div class="cart-content">
@@ -88,7 +141,9 @@
               </div>
 
               <div class="quantity-controls">
-                <button class="qty-btn" (click)="removeFromCart(item.id)">−</button>
+                <button class="qty-btn" (click)="removeFromCart(item.id)">
+                  −
+                </button>
                 <span class="quantity">{{ item.quantity }}</span>
                 <button class="qty-btn" (click)="addToCart(item)">+</button>
               </div>
@@ -117,7 +172,7 @@
         <div class="app-header">
           <button class="back-button" (click)="backToCart()">← Panier</button>
           <h2 class="view-title">Paiement</h2>
-          <div style="width: 40px;"></div>
+          <div style="width: 40px"></div>
         </div>
 
         <div class="payment-content">
@@ -148,7 +203,9 @@
                 <span class="payment-title">Carte bancaire</span>
                 <span class="payment-subtitle">Paiement sécurisé en ligne</span>
               </div>
-              <span class="checkmark" *ngIf="selectedPaymentMethod === 'card'">✓</span>
+              <span class="checkmark" *ngIf="selectedPaymentMethod === 'card'"
+                >✓</span
+              >
             </button>
 
             <button
@@ -161,7 +218,9 @@
                 <span class="payment-title">Espèces</span>
                 <span class="payment-subtitle">Payer au comptoir</span>
               </div>
-              <span class="checkmark" *ngIf="selectedPaymentMethod === 'cash'">✓</span>
+              <span class="checkmark" *ngIf="selectedPaymentMethod === 'cash'"
+                >✓</span
+              >
             </button>
           </div>
 
@@ -183,16 +242,24 @@
       </div>
 
       <!-- SUCCESS VIEW -->
-      <div class="view-container success-view" *ngIf="currentStep === 'success'">
+      <div
+        class="view-container success-view"
+        *ngIf="currentStep === 'success'"
+      >
         <div class="success-content">
           <div class="success-animation" [class.animate]="showPointsAnimation">
             <div class="success-icon">✓</div>
             <h2 class="success-title">Commande validée !</h2>
-            <p class="success-message">Votre commande a été transmise en cuisine</p>
+            <p class="success-message">
+              Votre commande a été transmise en cuisine
+            </p>
           </div>
 
           <div class="success-points">
-            <div class="points-earned-box" [class.animate]="showPointsAnimation">
+            <div
+              class="points-earned-box"
+              [class.animate]="showPointsAnimation"
+            >
               <div class="points-icon">🎁</div>
               <div class="points-text">
                 <span class="points-label">Points gagnés</span>
@@ -217,7 +284,9 @@
             </div>
             <div class="detail-row">
               <span>Paiement</span>
-              <span>{{ selectedPaymentMethod === 'card' ? 'Carte bancaire' : 'Espèces' }}</span>
+              <span>{{
+                selectedPaymentMethod === "card" ? "Carte bancaire" : "Espèces"
+              }}</span>
             </div>
           </div>
 
@@ -226,7 +295,6 @@
           </button>
         </div>
       </div>
-
     </div>
 
     <!-- Phone Bottom Bar -->
